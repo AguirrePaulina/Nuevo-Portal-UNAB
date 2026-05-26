@@ -181,7 +181,7 @@ class Materia {
 
 // ── Helper: construye la ruta del material ───────────────────────
 // Si la carpeta es la misma que el nombre del archivo, pasás solo el archivo.
-// Ruta final en tu proyecto: static/materiales/<carpeta>/<archivo>
+// Ruta final del proyecto: static/materiales/<carpeta>/<archivo>
 const mat = (carpeta, archivo) => ({ carpeta, archivo });
 
 /* ══════════════════════════════════════════════════════════════

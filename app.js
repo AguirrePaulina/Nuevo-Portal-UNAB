@@ -185,10 +185,8 @@ class Materia {
 const mat = (carpeta, archivo) => ({ carpeta, archivo });
 
 /* ══════════════════════════════════════════════════════════════
-   MATERIAS CON PDFs REALES
-   Fuente: capturas de OneDrive  (Portal 2.21 > static > materiales)
-   
-   Carpetas detectadas:
+   MATERIAS CON PDFs
+   Carpetas:
      ALGORITMOS Y ESTRUCTURA DE DATOS
      CIENCIA, TECNOLOGIA E INNOVACIÓN   ← nueva versión (26/5)
      DESARROLLO DE SOFTWARE

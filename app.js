@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════
    UNAB — app.js
-   PDFs carpeta PROGRAMACION > PRIMER AÑO
+   PDFs carpeta static > PRIMER AÑO
    Ruta base: static/materiales/<MATERIA>/<archivo.pdf>
 ═══════════════════════════════════════════════════════ */
 'use strict';

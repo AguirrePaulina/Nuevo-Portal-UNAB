@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Estudiantes Universidad Nacional Guillermo Brown - Carreras y Biblioteca</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+<!-- ══ NAVBAR ══════════════════════════════════════════════ -->
+<nav class="navbar navbar-expand-lg sticky-top shadow-sm">
+  <div class="container">
+    <a class="navbar-brand" href="#">Estudiantes UNAB</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navContent">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item"><a class="nav-link active" href="#inicio">Inicio</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Carreras</a>
+          <ul class="dropdown-menu" id="dropdown-carreras"></ul>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="#biblioteca">Biblioteca</a></li>
+        <li class="nav-item d-none" id="nav-admin-item">
+          <a class="nav-link" href="#sec-admin">Administración</a>
+        </li>
+      </ul>
+      <div class="d-flex align-items-center gap-2 mt-2 mt-lg-0" id="nav-auth"></div>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ HERO ════════════════════════════════════════════════ -->
+<section class="hero" id="inicio">
+  <div class="container">
+    <h1>Material de estudio para estudiantes</h1>
+    <p>Descubrí el contenido de la tecnicatura en programación y accedé a los recursos de nuestra biblioteca digital</p>
+    <a href="#carreras" class="btn-hero">Explorar Carreras</a>
+  </div>
+</section>
+
+<!-- ══ CARRERAS ════════════════════════════════════════════ -->
+<section id="carreras">
+  <div class="container">
+    <h2 class="sec-title">Nuestras Carreras</h2>
+    <p class="sec-sub">Hacé clic en la carrera para ver su plan de estudios por cuatrimestre</p>
+    <div class="row g-3" id="grid-carreras"></div>
+  </div>
+</section>
+
+<!-- ══ BIBLIOTECA ══════════════════════════════════════════ -->
+<section id="biblioteca">
+  <div class="container">
+    <h2 class="sec-title">Biblioteca Digital</h2>
+    <p class="sec-sub">Accedé a los programas y materiales de estudio de cada materia</p>
+
+    <div class="bib-hero-box">
+      <div class="row align-items-center g-3">
+        <div class="col-md-7">
+          <h5 class="fw-bold mb-1">
+            <i class="bi bi-journal-bookmark-fill me-2 text-primary"></i>Materiales por Materia
+          </h5>
+          <p class="mb-0 text-muted small">
+            Encontrá los programas oficiales y materiales de práctica organizados por materia.
+            Buscá por nombre o por código numérico.
+          </p>
+        </div>
+        <div class="col-md-5">
+          <div class="bib-stats">
+            <span><i class="bi bi-file-earmark-pdf"></i> Programas oficiales de cada materia</span>
+            <span><i class="bi bi-folder2-open"></i> Modelos de parciales y guías</span>
+            <span><i class="bi bi-search"></i> Buscá por nombre o código (#184, #177…)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bib-search-box mx-auto">
+      <div class="input-group">
+        <input type="text" id="bib-input" class="form-control"
+               placeholder="Buscar por materia, código (#184), o categoría…"
+               autocomplete="off"
+               oninput="Bib.live()"
+               onkeydown="if(event.key==='Enter'){Bib.buscar();return false;}"/>
+        <span class="input-group-text" onclick="Bib.buscar()">
+          <i class="bi bi-search"></i>
+        </span>
+      </div>
+      <div class="live-results" id="live-results"></div>
+    </div>
+
+    <div class="text-center mb-4" id="bib-cats"></div>
+    <div class="row g-3" id="grid-recursos"></div>
+  </div>
+</section>
+
+<!-- ══ PANEL ADMIN ══════════════════════════════════════════ -->
+<section id="sec-admin" style="display:none;">
+  <div class="container">
+    <h2 class="sec-title">Panel de Administración</h2>
+    <p class="sec-sub">Gestión de usuarios registrados en el sistema</p>
+    <div class="table-responsive">
+      <table class="table admin-table bg-white rounded shadow-sm align-middle">
+        <thead>
+          <tr>
+            <th>#</th><th>Nombre</th><th>Email</th>
+            <th>Carrera</th><th>Rol actual</th><th>Cambiar rol</th>
+          </tr>
+        </thead>
+        <tbody id="admin-tbody">
+          <tr><td colspan="6" class="text-center text-muted py-3">Cargando…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ═══════════════════════════════════════════════ -->
+<footer>
+  <p class="mb-1">Estudiantes de la <strong>Universidad Nacional Guillermo Brown</strong></p>
+  <p class="mb-0">© 2026 Material educativo.</p>
+</footer>
+
+<!-- ══ MODAL — Plan de estudios ════════════════════════════ -->
+<div class="modal fade" id="modal-plan" tabindex="-1">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header border-0 pb-0">
+        <div>
+          <span id="plan-badge" class="tipo-badge me-2"></span>
+          <h5 class="modal-title d-inline fw-bold" id="plan-nombre"></h5>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body pt-2" id="plan-body"></div>
+      <div class="modal-footer border-0 pt-0">
+        <button class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL — Detalle Materia ═════════════════════════════ -->
+<div class="modal fade" id="modal-materia" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" style="background:var(--blue);color:#fff;">
+        <div>
+          <div id="m-code" style="font-family:monospace;font-size:.75rem;font-weight:700;opacity:.8;"></div>
+          <h5 class="modal-title fw-bold" id="m-nombre" style="color:#fff;"></h5>
+          <div id="m-meta" style="font-size:.8rem;opacity:.8;margin-top:2px;"></div>
+        </div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-4" id="m-body"></div>
+      <div class="modal-footer border-0 pt-0" id="m-footer"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL — Auth ═════════════════════════════════════════ -->
+<div class="modal fade" id="modal-auth" tabindex="-1" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header border-0 pb-1">
+        <h5 class="modal-title fw-bold" id="auth-title">Iniciar sesión</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body pt-2" id="auth-body"></div>
+    </div>
+  </div>
+</div>
+
+<div id="toast-wrap"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
